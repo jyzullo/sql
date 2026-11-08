@@ -48,8 +48,12 @@ There are several tools online you can use, I'd recommend [Draw.io](https://www.
 
 **HINT:** You do not need to create any data for this prompt. This is a conceptual model only. 
 
+![alt text](<../../../Assignments/Small Bookstore Logical Model.drawio.png>)
+
 #### Prompt 2
 We want to create employee shifts, splitting up the day into morning and evening. Add this to the ERD.
+
+![alt text](<../../../Assignments/Small Bookstore Logical Model.employee_shifts.png>)
 
 #### Prompt 3
 The store wants to keep customer addresses. Propose two architectures for the CUSTOMER_ADDRESS table, one that will retain changes, and another that will overwrite. Which is type 1, which is type 2? 
@@ -57,7 +61,29 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
 ```
-Your answer...
+Type 1 architecture is when the database is designed to be overwritten. In this case, if a customer initially lived in one city and then moved, the old address is overwritten with the new one. In this design, the record of the old address is gone forever. 
+ -----------------------
+| customer_address_type1 |
+ -----------------------
+| customer_id            |
+| street_address         |
+| city                   |
+ -----------------------
+
+
+Type 2 architecture is when the database is designed to retain the full history by creating a new row every time new data is inputted. In this case, if a customer initially lived in one city and then moved, the old address is marked inactive and the new address data is retained.
+-----------------------
+| customer_address_type1 |
+ -----------------------
+| customer_id            |
+| street_address         |
+| city                   |
+| address_start_date     |
+| address_end_date       |
+| is_current             |--> boolean
+ -----------------------
+
+In my ERD, the customer_address_type1 and customer_address_type2 tables are indicated. The type 2 table has added attributes including address_start_date, address_end_date and is_current which would capture customer addresses at the time orders were placed. 
 ```
 
 ***
@@ -193,5 +219,7 @@ Consider, for example, concepts of labour, bias, LLM proliferation, moderating c
 
 
 ```
-Your thoughts...
+I think there are two core issues in this article. The first issue is that datasets are at their very foundational level, work that has been done by humans. As technology advances at increasingly faster pace, it is equally difficult to identify those who contributed and built the very databases we have come to rely on. Likely, for the majority of people who access data (myself included), those who are responsible for the creation and maintenance of them, remain nameless and invisible. The major issue here is that, similar to academic research, citations and giving credit to others' work can be done poorly or incorrectly and so, in the same way as those who write may omit credit to those who inspired them, we access and manipulate data without a minor thought of where or who might have created it. As a result, those creators remain invisible despite their hard work.
+
+The second issue is the politics of the work itself. As Boykis indicates, "every single piece of decision-making...rests on a human being manually putting something together and making a decision". In saying this, it is clear that even the menial tasks of labelling images are layered with implicit bias, government influences and power dynamics relative to the data inputter. As a result, computers who train on these sorts of images, do so with images labelled with a flawed, subjective and biased lenses. Ultimately, the  clear ethical implications I noted after reading this article is that data are not neutral but rather infused with the labour of human productivity and can also reflect the biases of its creators. 
 ```
